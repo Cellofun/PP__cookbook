@@ -3,3 +3,5 @@ $(document).ready(function(){
 
     $('.recipe-description a').attr('target', '_blank');
 });
+
+AOS.init();
