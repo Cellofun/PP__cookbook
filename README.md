@@ -1,2 +1,2 @@
 # PP_cookbook
-A tiny pet projects for mom
+A tiny pet project for mom
