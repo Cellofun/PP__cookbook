@@ -48,7 +48,7 @@ class RecipeListView(PaginatorMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(RecipeListView, self).get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
+        context['categories'] = Category.objects.all().order_by('title')
         return context
 
 
@@ -60,7 +60,7 @@ class RecipeDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(RecipeDetailView, self).get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
+        context['categories'] = Category.objects.all().order_by('title')
         return context
 
 
@@ -75,7 +75,7 @@ class CategoryListView(PaginatorMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoryListView, self).get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
+        context['categories'] = Category.objects.all().order_by('title')
         context['category'] = Category.objects.filter(slug=self.kwargs['slug']).first()
         return context
 
@@ -91,7 +91,7 @@ class IngredientListView(PaginatorMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IngredientListView, self).get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
+        context['categories'] = Category.objects.all().order_by('title')
         context['ingredient'] = Ingredient.objects.filter(slug=self.kwargs['slug']).first()
         return context
 
