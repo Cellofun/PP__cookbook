@@ -1,0 +1,14 @@
+<div class="row py-6 py-lg-12">
+    {% for recipe in page_obj %}
+        <div class="col-sm-12 col-md-4" data-aos="slide-up" data-aos-duration="500" data-aos-easing="ease-in-out-cubic">
+            <a href="{% url 'recipes:recipe-detail' slug=recipe.slug %}" class="recipe-link">
+                <div class="{{ recipe.category.slug }} card card-custom card-recipe gutter-b">
+                    <div class="card-body d-flex flex-column align-items-start justify-content-start custom-filter">
+                        <h3 class="card-recipe-title font-weight-bolder text-white text-center line-height-lg">{{ recipe.title }}</h3>
+                        <input type="hidden" class="url-hidden" value="{{ recipe.category.image.url }}">
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>

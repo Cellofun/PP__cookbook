@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block head_title %}{{ ingredient.title }} - Рецепты из старых тетрадей{% endblock %}
+
+{% block subheader %}
+    <div class="parallax-window" data-parallax="scroll" data-image-src="{% static "media/bg/bg-2.png" %}">
+        {% include "utils/header_mobile.html" %}
+        {% include "utils/header.html" %}
+        <div class="subheader py-12 py-lg-24 subheader-transparent align-center" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-center flex-wrap flex-sm-nowrap">
+                <div class="d-flex align-items-center flex-wrap align-center">
+                    <div class="d-flex flex-column text-center recipe-info">
+                        <h3 class="text-white text-uppercase font-weight-bold display-4 my-2 mb-8">{{ ingredient.title }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% include 'recipes/include/cards.html' %}
+
+    {% include 'recipes/include/pagination.html' %}
+
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/recipes/cards.js' %}"></script>
+{% endblock %}

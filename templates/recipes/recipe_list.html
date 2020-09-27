@@ -1,0 +1,69 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block head_title %}Рецепты из старых тетрадей{% endblock %}
+
+{% block subheader %}
+    <div class="parallax-window" data-parallax="scroll" data-image-src="{% static "media/bg/bg-3.png" %}">
+        {% include "utils/header_mobile.html" %}
+        {% include "utils/header.html" %}
+        <div class="subheader py-12 py-lg-24 subheader-transparent align-center" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-center flex-wrap flex-sm-nowrap pt-8 pt-lg-12">
+                <div class="d-flex align-items-center flex-wrap align-center">
+                    <div class="d-flex flex-column text-center w-100 w-md-700px">
+                        <h3 class="text-white text-uppercase font-weight-bold display-4 my-2 mb-8 mb-lg-12">Будет вкусно</h3>
+                        <form method="get">
+                            <div class="form-group recipe-search">
+                                <div class="input-icon input-icon-right">
+                                    <input type="text" id="q" name="q" class="form-control text-white placeholder-white bg-light-o-70 rounded-pill border-0" placeholder="Найти рецепт...">
+                                    <span>
+                                        <i class="flaticon2-search-1 icon-md text-white"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    {% include 'recipes/include/cards.html' %}
+
+    {% include 'recipes/include/pagination.html' %}
+
+{% endblock %}
+
+{% block extra_scripts %}
+    <script>
+        $(function () {
+            $("#q").autocomplete({
+                source: '{% url 'recipes:autocomplete' %}',
+                select: function( event, ui ) {
+                    window.location = 'recipes/' + ui.item.slug;
+                },
+                open: function () { $('ul.ui-autocomplete').addClass('opened') },
+                close: function () {
+                    $('ul.ui-autocomplete')
+                        .removeClass('opened')
+                        .css('display','block');
+                },
+                minLength: 2
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                return $("<li>")
+                    .data("item.autocomplete", item)
+                    .append(
+                        "<div>" +
+                        "<div class='font-weight-bolder'>" + item.title + "</div>" +
+                        "<div class='font-size-sm text-muted text-ellipsis mt-2'>" + item.description + "</div>" +
+                        "</div>"
+                    )
+                    .appendTo(ul);
+            };
+        });
+    </script>
+    <script src="{% static 'js/recipes/cards.js' %}"></script>
+{% endblock %}

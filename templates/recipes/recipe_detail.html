@@ -1,0 +1,73 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block head_title %}{{ recipe.title }} - Рецепты из старых тетрадей{% endblock %}
+
+{% block subheader %}
+    <div class="parallax-window" data-parallax="scroll" data-image-src="{{ recipe.category.image.url }}">
+        {% include "utils/header_mobile.html" %}
+        {% include "utils/header.html" %}
+        <div class="subheader py-12 py-lg-24 subheader-transparent align-center" id="kt_subheader">
+            <div class="container d-flex align-items-center justify-content-center flex-wrap flex-sm-nowrap">
+                <div class="d-flex align-items-center flex-wrap align-center">
+                    <div class="d-flex flex-column text-center recipe-info">
+                        <h3 class="text-white text-uppercase font-weight-bold display-4 my-2 mb-8">{{ recipe.title }}</h3>
+                        <div class="text-white my-2">{{ recipe.description|safe|linebreaks }}</div>
+                        <p class="text-white my-2">
+                            <a href="{% url 'recipes:category-list' slug=recipe.category.slug %}">{{ recipe.category }}</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% for section in recipe.section.all %}
+        <div class="py-6 py-lg-12" id="{{ section.title }}">
+            <div class="row justify-content-center align-items-center">
+                <h3 class="font-weight-bolder pb-6">{{ section.title }}</h3>
+            </div>
+            <div class="row">
+                <div class="col-xl-4">
+                    <table class="table table-borderless">
+                        <tbody>
+                            {% for ingredient in section.ingredient.all %}
+                                <tr>
+                                    <td class="w-70 align-middle"><a href="{% url 'recipes:ingredient-list' slug=ingredient.slug %}" class="fancy-link">{{ ingredient.title }}</a></td>
+                                    <td id="block-{{ section.id }}-{{ ingredient.slug }}" class="w-30 text-right">
+                                        <span id="init-{{ section.id }}-{{ ingredient.slug }}">{{ ingredient.amount|safe }}</span>
+                                        <span>{{ ingredient.get_measure_display }}</span>
+                                        <input type="hidden" id="measure-{{ section.id }}-{{ ingredient.slug }}" value="{{ ingredient.measure }}">
+                                        <input type="hidden" id="value-{{ section.id }}-{{ ingredient.slug }}" value="{{ ingredient.amount|safe }}">
+                                        <input type="hidden" id="anchor-{{ section.id }}-{{ ingredient.slug }}" value="{{ ingredient.amount|safe }}">
+                                        <input type="number" class="form-control d-none" id="new-{{ section.id }}-{{ ingredient.slug }}" value="{{ ingredient.amount|safe }}" placeholder="{{ ingredient.get_measure_display }}">
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xl-8">
+                    <ol>
+                        {% for method in section.method.all%}
+                            <li class="method-item">
+                                <span>{{ method.description }}</span>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="alert alert-light font-size-xs" role="alert">
+        Вы можете пересчитать количество ингредиентов. Для этого нажмите на количество ингредиента, введите необходимое
+        количество и нажмите на клавишу Enter. После этого все ингредиенты в рецепте будут пересчитаны.
+    </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/recipes/fractions.js' %}"></script>
+    <script src="{% static 'js/recipes/calculator.js' %}"></script>
+{% endblock %}
