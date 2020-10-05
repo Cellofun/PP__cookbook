@@ -8,7 +8,11 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['www.oldnotebooksrecipes.ru']
+ALLOWED_HOSTS = [
+    'www.oldnotebooksrecipes.ru',
+    'oldnotebooksrecipes.ru',
+    'cellofun-cookbook.herokuapp.com'
+]
 
 
 INSTALLED_APPS = [
