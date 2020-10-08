@@ -86,10 +86,6 @@ DATABASES = {
     }
 }
 
-import dj_database_url
-
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -198,7 +194,3 @@ SECURE_HSTS_PRELOAD = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 X_FRAME_OPTIONS = 'DENY'
-
-
-import django_heroku
-django_heroku.settings(locals())
